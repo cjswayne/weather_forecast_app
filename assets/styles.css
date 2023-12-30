@@ -1,0 +1,141 @@
+/* RESETS */
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+
+button{
+    border-radius: 10px;
+    border:none;
+    padding:5px;
+
+}
+
+ #clear-btn{
+    width:fit-content;
+ }
+
+ *{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin:0;
+ }
+ main{
+    padding:0 3%;
+ }
+
+
+/* GENERAL */
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-one{
+    flex:1;
+}
+
+/* HEADER */
+.current-city{
+    font-size:75px;
+}
+header h1{
+    padding:20px;
+}
+header{
+    margin-bottom:20px;
+    background-color: blue;
+    color:white;
+}
+
+/* SEARCH SECTION */
+
+.search{
+    padding-right:20px;
+    max-width: 250px;
+
+}
+.search button{
+    margin-top:10px;
+    width:100%;
+
+}
+
+.search-box button{
+    background-color: darkgoldenrod;
+    color:white;
+}
+.search-box{
+    padding-bottom:20px;
+    margin-bottom:20px;
+    border-bottom:1px solid black;
+}
+.search-box h3{
+    margin-bottom:10px;
+}
+/* FORECAST SECTION */
+.one-day-box{
+/* background-color: red; */
+margin:20px;
+padding:10px;
+border:4px solid blue;
+}
+.forecast{
+flex:1;
+}
+.forecast h3{
+    margin-left:20px;
+    padding-left:10px;
+}
+
+.five-day h2{
+    font-size:50px;
+}
+.five-day li{
+    font-size:18px;
+}
+
+.five-day-box{
+    margin:20px;
+    justify-content: space-around;
+}
+.five-day{
+    border:1px solid black;
+    padding:20px;
+    width:200px;
+    height:200px;
+    position:relative;
+    opacity: .8;
+/* background-color: #4F4F4F  ; */
+}
+.weather-icon{
+    font-size: .6em;
+opacity: 0.8;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+z-index: -2;
+opacity: 0.7;
+}
+
+.icon{
+    position:absolute;
+    /* left:0;
+    right:0;
+    top:0;
+    bottom:0; */
+    z-index:-2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin:auto;
+    width: 250px;
+    opacity: 0.7;
+    filter:blur(5px);
+
+}

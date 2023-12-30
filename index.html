@@ -7,7 +7,63 @@
     <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body>
-    rswg
+
+
+<header>
+    <h1>Weather Dashboard</h1>
+    <!-- <button id="clear-btn">Clear</button> -->
+</header>
+<main class="flex-row">
+    <section class="search flex-column">
+        <div class="search-box flex-column">
+            <h3>Search for a City:</h3>
+        <input id="search-input" type="text" placeholder="Enter City Name">
+            <button id="search-btn">Search</button>
+        </div>
+        <div id="names-container">
+            <!-- <button class="city-name">
+                Seattle
+            </button>
+            <button class="city-name">
+                San Diego
+            </button> -->
+        </div>
+
+        <p id="success-text"></p>
+    </section> 
+    <section class="forecast">
+        <div id="one-day-box" class="one-day-box">
+            <!-- <div class="one-day">
+                <h2>City Name + date<span class="weather-icon"></span></h2>
+                <ul>
+                    <li>Temp: </li>
+                    <li>Wind: </li>
+                    <li>Humidity: </li>
+                </ul>
+            </div> -->
+        </div>
+        <div>
+            <h3>5 Day Forecast</h3>
+            <div id="five-day-box" class="flex-row five-day-box">
+
+                <div class="five-day">
+                    
+                    <h2>11/19</h2>
+                    <ul>
+                        <li>Temp: </li>
+                        <li>Wind: </li>
+                        <li>Humidity: </li>
+                    </ul>
+                    <span class="weather-icon"></span>
+                    <img class="icon" src="https://openweathermap.org/img/wn/10d@2x.png" alt="Weather Icon">
+                </div>                
+            
+            
+            </div>
+        </div>
+    </section>
+</main>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./assets/script.js"></script>
