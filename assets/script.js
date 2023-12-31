@@ -17,9 +17,9 @@ function displayCurrentWeather(location, type) {
 
         console.log(`${lat}, ${lon}`)
 
-        currentDayURl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
+        currentDayURl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
     } else {
-        currentDayURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
+        currentDayURl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
     }
 
     $.ajax({
@@ -76,8 +76,22 @@ function displayCurrentWeather(location, type) {
 //fxn to build 5 day
 // fxn displayWeather takes location, type 
 
-function displayFiveDayForecast(city, type) {
-    const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
+function displayFiveDayForecast(location, type) {
+
+
+    var fiveDayURL;
+    if (type == "LatLon") {
+        let lat = location[0];
+        let lon = location[1];
+
+        console.log(`${lat}, ${lon}`)
+
+        fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
+    } else {
+        fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=imperial&appid=${apiKey}`;
+    }
+
+    // const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${apiKey}`;
 
     $.ajax({
         url: fiveDayURL,
@@ -96,7 +110,7 @@ function displayFiveDayForecast(city, type) {
                     let date = dateString[1] + '/' + dateString[2].substring(0, 2);
                     let iconName = item.weather[0].icon;
                     let icon = `<img class="icon" src='http://openweathermap.org/img/wn/${iconName}@2x.png' alt='Weather Icon'>`;
-                    let temp = item.main.temp;
+                    let temp = Math.floor(item.main.temp);
                     let wind = item.wind.speed;
                     let humidity = item.main.humidity;
                     let weatherColorRaw = item.weather[0].description
@@ -110,12 +124,14 @@ function displayFiveDayForecast(city, type) {
                     let elementId = `weather${index}-${weatherColor}`
                     $("#five-day-box").append(`
                     <div  class="five-day">
-                    <h2>${date} </h2>
+                    <h2>${temp}°F</h2>
+                    
                     <ul>
-                        <li>${temp}°F</li>
+                        
                         <li>${wind} mph</li>
                         <li>Humidity: ${humidity}%</li>
                     </ul>
+                    <h2>${date} </h2>
                     <span id="${elementId}" class="weather-icon"></span>
                     ${icon}
 
@@ -128,6 +144,11 @@ function displayFiveDayForecast(city, type) {
 
                 }
             });
+        }
+        ,
+        error: function () {
+            console.log('1');
+            apiError();
         },
     });
 }
@@ -193,6 +214,7 @@ function populateNames() {
     var cityNames = getCityNames();
     console.log(cityNames);
     cityNames.forEach((cityName) => {
+        console.log(cityName.city)
         insertHistory(cityName.city);
     });
 }
@@ -213,23 +235,14 @@ function getCurrentLocation() {
     });
 }
 
-//     if ("geolocation" in navigator) {
-//         navigator.geolocation.getCurrentPosition(function (position) {
-
-//         }, function () {
-//             return []
-//         });
-//     }
-// }
-
 // fxn to initialize everything
 function init() {
     getCurrentLocation()
     .then( currentLocation => {
         displayCurrentWeather(currentLocation, 'LatLon');
+        displayFiveDayForecast(currentLocation, 'LatLon');
     })
     .catch(error => console.log(error));
-    // console.log(x);
     populateNames();
 
 
@@ -260,6 +273,30 @@ function getCityName(location, callback){
             callback(null);
         }
     })
+}
+
+//fxn to properly capitilze city name
+function capitilze(string){
+    console.log(string);
+    if(!string || typeof string !== 'string' )return;
+    return string.split(' ')
+       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+       .join(' ');
+       
+}
+
+// fxn to return different formatted dates
+function formatDate(dateString){
+    const date = dayjs(dateString);
+    return {
+        abbreviatedDayNameUpper: date.format('ddd').toUpperCase(), // 'SAT'
+        abbreviatedDayNameLower: date.format('ddd'),               // 'Sat'
+        fullDate: date.format('MM/DD/YYYY'),                       // '12/30/2023'
+        monthDay: date.format('MM/DD'),                            // '12/30'
+        fullMonthName: date.format('MMMM'),                        // 'December'
+        abbreviatedMonthNameUpper: date.format('MMM').toUpperCase(), // 'DEC'
+        abbreviatedMonthNameLower: date.format('MMM')   // 'Dec'
+    }
 }
 
 const weatherColors = {
@@ -331,10 +368,12 @@ init();
 // displayCurrentWeather(city)
 // displayFiveDayForecast(city)
 $("#search-btn").click(function () {
-    city = $("#search-input").val();
-    // displayCurrentWeather(city)
-    // displayFiveDayForecast(city)
-    saveCity(city);
+    city = $("#search-input").val(); 
+    capitilziedCity = capitilze(city);
+    displayCurrentWeather(capitilziedCity)
+    displayFiveDayForecast(capitilziedCity)
+    console.log(capitilziedCity);
+    saveCity(capitilziedCity);
 });
 $("#clear-btn").click(function () {
     clearCityNames();
