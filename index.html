@@ -5,41 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Kanit:wght@100&display=swap" rel="stylesheet">
+
+<!-- https://dribbble.com/shots/15524720-Weather-web-app -->
+
+
 </head>
 <body>
 
 
-<header>
-    <h1>Weather Dashboard</h1>
-    <!-- <button id="clear-btn">Clear</button> -->
-</header>
-<main class="flex-row">
-    <section class="search flex-column">
-        <div class="search-box flex-column">
-            <h3>Search for a City:</h3>
-        <input id="search-input" type="text" placeholder="Enter City Name">
-            <button id="search-btn">Search</button>
-        </div>
-        <div id="names-container">
+
+<main class="flex-column">
+    <header>
+        <h1 id="city-name">Weather Dashboard</h1>
+        <!-- <button id="clear-btn">Clear</button> -->
+    </header>
+        <section class="search flex-row" >
+            <section class="flex-column" style="display:none;">
+                <div class ="search-box flex-column">
+                    <h3>Search for a City:</h3>
+                <input id="search-input" type="text" placeholder="Enter City Name">
+            
+                    <button id="search-btn">Search</button>
+                </div>
+                <div id="names-container">
+    
+                </div>
+            </section>
+            
+            
+    
+            <p id="success-text"></p>
+       
 
         </div>
+        <div id="one-day-box" class="one-day-box forecast">
 
-        <p id="success-text"></p>
     </section> 
-    <section class="forecast">
-        <div id="one-day-box" class="one-day-box">
+        
+    <div>
+        <!-- <h3>5 Day Forecast</h3> -->
+        <div id="five-day-box" class="flex-row five-day-box">
 
+                    
+        
+        
         </div>
-        <div>
-            <h3>5 Day Forecast</h3>
-            <div id="five-day-box" class="flex-row five-day-box">
-
-                        
-            
-            
-            </div>
-        </div>
-    </section>
+    </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1.0.0/dayjs.min.js"></script>

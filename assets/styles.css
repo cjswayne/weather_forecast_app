@@ -10,17 +10,37 @@ button{
     padding:5px;
 
 }
+html, body{
+    background:green;
+    height:100%;
+    position:relative;
+    background:#E9E9E9;
+}
 
  #clear-btn{
     width:fit-content;
  }
 
  *{
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Caveat', cursive;
+    font-family: 'Kanit', sans-serif;    
     margin:0;
  }
  main{
-    padding:0 3%;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:3%;
+    max-width:60%;
+    max-height:550px;
+    margin:auto;
+    border-radius:50px;
+    background:#FAFAFA;
+    z-index:1;
+    overflow: hidden;
+    border:10px solid #FAFAFA;
  }
 
 
@@ -43,12 +63,20 @@ button{
     font-size:75px;
 }
 header h1{
-    padding:20px;
+    width:100%;
+    padding-left:50px;
+    color:#111;
 }
 header{
-    margin-bottom:20px;
-    background-color: blue;
-    color:white;
+    /* margin-bottom:20px; */
+    background-color: #E9E9E9;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    z-index:-1;
+    
+    /* display:none; */
 }
 
 /* SEARCH SECTION */
@@ -81,10 +109,10 @@ header{
 /* background-color: red; */
 margin:20px;
 padding:10px;
-border:4px solid blue;
+/* border:4px solid blue; */
 }
 .forecast{
-flex:1;
+    flex:1;
 }
 .forecast h3{
     margin-left:20px;
@@ -92,7 +120,7 @@ flex:1;
 }
 
 .five-day h2{
-    font-size:50px;
+    /* font-size:50px; */
 }
 .five-day li{
     font-size:18px;
@@ -105,11 +133,14 @@ flex:1;
 .five-day{
     border:1px solid black;
     padding:20px;
-    width:200px;
-    height:200px;
+    /* width:200px; */
+    /* height:200px; */
     position:relative;
     opacity: .8;
 /* background-color: #4F4F4F  ; */
+}
+.five-day h2{
+    font-size:50px;
 }
 .weather-icon{
     font-size: .6em;

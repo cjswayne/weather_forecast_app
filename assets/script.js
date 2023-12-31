@@ -31,14 +31,18 @@ function displayCurrentWeather(location, type) {
             console.log(item);
             let date = new Date(item.dt * 1000).toDateString();
             let iconName = item.weather[0].icon;
-            let icon = `<img src='http://openweathermap.org/img/wn/10d@2x.png' alt='Weather Icon'>`;
-            let temp = item.main.temp;
+            let icon = `<img class="icon" src='http://openweathermap.org/img/wn/${iconName}@2x.png' alt='Weather Icon'>`;
+            let temp = Math.floor(item.main.temp);
             let wind = item.wind.speed;
             let humidity = item.main.humidity;
+            let weatherColorHex = getWeatherColor(item.weather[0].description);
+
+            let elementId = `weatherToday-${weatherColorHex}`;
+
             $("#one-day-box").empty();
             $("#one-day-box").append(`
                     <div class="one-day">
-                    <h2 class="current-city" id="city-name">  </h2>
+                   <!-- <h2 class="current-city" id="city-name">  </h2> -->
                     <h2>${date}</h2>
                     <ul>
                         <li>Temp: ${temp}°F</li>
@@ -49,11 +53,33 @@ function displayCurrentWeather(location, type) {
                     <span class=""></span>
                 </div>  
                     `);
+                    $("#five-day-box").empty();
+
+                    $("#five-day-box").append(`
+                    <div  class="five-day">
+                    <h2>${temp}°F</h2>
+                    
+                    <ul>
+                        
+                        <li>${wind} mph</li>
+                        <li>Humidity: ${humidity}%</li>
+                    </ul>
+                    <h3>${date} </h3>
+                    <span id="${elementId}" class="weather-icon"></span>
+                    ${icon}
+
+                </div>  
+                    `);
+                    let box = document.querySelector(`#${elementId}`)
+                    weatherColorHex = `#${weatherColorHex}`
+                    console.log(weatherColorHex);
+                    box.style.backgroundColor = weatherColorHex;
+                    box.style.opacity = "0.8";
                     if(type == "LatLon"){
                         getCityName(location, function(cityName){
                             if(cityName){
                                 
-                                $('#city-name').text(cityName);
+                                $('#city-name').text(`+ ${cityName}`);
                                 console.log($('#city-name'));
                             } else{
                                 // city = "";
@@ -98,7 +124,6 @@ function displayFiveDayForecast(location, type) {
         type: "GET",
         dataType: "json",
         success: function (data) {
-            $("#five-day-box").empty();
 
             console.log(data);
             data.list.forEach((item, index) => {
@@ -113,15 +138,10 @@ function displayFiveDayForecast(location, type) {
                     let temp = Math.floor(item.main.temp);
                     let wind = item.wind.speed;
                     let humidity = item.main.humidity;
-                    let weatherColorRaw = item.weather[0].description
-                    console.log(weatherColorRaw);
-                    let weatherColor = weatherColorRaw.replace(/\s+/g, "_");
-                    console.log(weatherColor);
 
-                    let weatherColorHex = weatherColors[weatherColor];
-                    console.log(weatherColorHex);
+                    let weatherColorHex = getWeatherColor(item.weather[0].description);
 
-                    let elementId = `weather${index}-${weatherColor}`
+                    let elementId = `weather${index}-${weatherColorHex}`
                     $("#five-day-box").append(`
                     <div  class="five-day">
                     <h2>${temp}°F</h2>
@@ -131,14 +151,16 @@ function displayFiveDayForecast(location, type) {
                         <li>${wind} mph</li>
                         <li>Humidity: ${humidity}%</li>
                     </ul>
-                    <h2>${date} </h2>
+                    <h3>${date} </h3>
                     <span id="${elementId}" class="weather-icon"></span>
                     ${icon}
 
                 </div>  
                     `);
-                    console.log(weatherColorHex);
+                    
                     let box = document.querySelector(`#${elementId}`)
+                    weatherColorHex = `#${weatherColorHex}`
+                    console.log(weatherColorHex);
                     box.style.backgroundColor = weatherColorHex;
                     box.style.opacity = "0.8";
 
@@ -152,6 +174,17 @@ function displayFiveDayForecast(location, type) {
         },
     });
 }
+// fxn to color weatherbox
+function colorWeatherBox(elementID){
+    let id = `#${elementID}`
+}
+// fxn to get weatherColor
+function getWeatherColor(desc){
+    let weatherColorRaw = desc;  
+                    let weatherColor = weatherColorRaw.replace(/\s+/g, "_");
+                    return weatherColors[weatherColor];
+}
+
 
 // fxn that says city name is incorrect
 function apiError() {
@@ -300,67 +333,70 @@ function formatDate(dateString){
 }
 
 const weatherColors = {
-    "thunderstorm_with_light_rain": "#54595D",
-    "thunderstorm_with_rain": "#4A5056",
-    "thunderstorm_with_heavy_rain": "#40464D",
-    "light_thunderstorm": "#5F656B",
-    "thunderstorm": "#353B41",
-    "heavy_thunderstorm": "#2B3137",
-    "ragged_thunderstorm": "#20262C",
-    "thunderstorm_with_light_drizzle": "#73797F",
-    "thunderstorm_with_drizzle": "#696F75",
-    "thunderstorm_with_heavy_drizzle": "#8B9197",
+    "thunderstorm_with_light_rain":"54595D",
+    "thunderstorm_with_rain":"4A5056",
+    "thunderstorm_with_heavy_rain":"40464D",
+    "light_thunderstorm":"5F656B",
+    "thunderstorm":"353B41",
+    "heavy_thunderstorm":"2B3137",
+    "ragged_thunderstorm":"20262C",
+    "thunderstorm_with_light_drizzle":"73797F",
+    "thunderstorm_with_drizzle":"696F75",
+    "thunderstorm_with_heavy_drizzle":"8B9197",
 
-    "light_intensity_drizzle": "#A0AAB0",
-    "drizzle": "#B4BEC4",
-    "heavy_intensity_drizzle": "#C8D2D8",
-    "light_intensity_drizzle_rain": "#DCDDE2",
-    "drizzle_rain": "#B0BAD0",
-    "heavy_intensity_drizzle_rain": "#94A8C8",
-    "shower_rain_and_drizzle": "#7886C0",
-    "heavy_shower_rain_and_drizzle": "#5C64B8",
-    "shower_drizzle": "#4052B0",
+    "light_intensity_drizzle":"A0AAB0",
+    "drizzle":"B4BEC4",
+    "heavy_intensity_drizzle":"C8D2D8",
+    "light_intensity_drizzle_rain":"DCDDE2",
+    "drizzle_rain":"B0BAD0",
+    "heavy_intensity_drizzle_rain":"94A8C8",
+    "shower_rain_and_drizzle":"7886C0",
+    "heavy_shower_rain_and_drizzle":"5C64B8",
+    "shower_drizzle":"4052B0",
 
-    "light_rain": "#88B7D5",
-    "moderate_rain": "#6CA3C1",
-    "heavy_intensity_rain": "#508FAD",
-    "very_heavy_rain": "#347B99",
-    "extreme_rain": "#186785",
-    "freezing_rain": "#004D71",
-    "light_intensity_shower_rain": "#0073A8",
-    "shower_rain": "#0086C3",
-    "heavy_intensity_shower_rain": "#0099DE",
-    "ragged_shower_rain": "#00ACF9",
+    "light_rain":"88B7D5",
+    "moderate_rain":"6CA3C1",
+    "heavy_intensity_rain":"508FAD",
+    "very_heavy_rain":"347B99",
+    "extreme_rain":"186785",
+    "freezing_rain":"004D71",
+    "light_intensity_shower_rain":"0073A8",
+    "shower_rain":"0086C3",
+    "heavy_intensity_shower_rain":"0099DE",
+    "ragged_shower_rain":"00ACF9",
 
-    "light_snow": "#E0E0E0",
-    "snow": "#E6E6E6",
-    "heavy_snow": "#ECECEC",
-    "sleet": "#D1D1D1",
-    "light_shower_sleet": "#D7D7D7",
-    "shower_sleet": "#DDDDDD",
-    "light_rain_and_snow": "#F2F2F2",
-    "rain_and_snow": "#F8F8F8",
-    "light_shower_snow": "#FBFBFB",
-    "shower_snow": "#FFFFFF",
-    "heavy_shower_snow": "#F2F2F2",
+    "light_snow":"E0E0E0",
+    "snow":"E6E6E6",
+    "heavy_snow":"ECECEC",
+    "sleet":"D1D1D1",
+    "light_shower_sleet":"D7D7D7",
+    "shower_sleet":"DDDDDD",
+    "light_rain_and_snow":"F2F2F2",
+    "rain_and_snow":"F8F8F8",
+    "light_shower_snow":"FBFBFB",
+    "shower_snow":"FFFFFF",
+    "heavy_shower_snow":"F2F2F2",
 
-    "mist": "#B3B3B3",
-    "smoke": "#999999",
-    "haze": "#808080",
-    "sand_dust_whirls": "#666666",
-    "fog": "#4D4D4D",
-    "sand": "#333333",
-    "dust": "#1A1A1A",
-    "volcanic_ash": "#000000",
-    "squalls": "#262626",
-    "tornado": "#0D0D0D",
+    "mist":"B3B3B3",
+    "smoke":"999999",
+    "haze":"808080",
+    "sand_dust_whirls":"666666",
+    "fog":"4D4D4D",
+    "sand":"333333",
+    "dust":"1A1A1A",
+    "volcanic_ash":"000000",
+    "squalls":"262626",
+    "tornado":"0D0D0D",
 
-    "clear_sky": "#87CEEB",
-    "few_clouds": "#8DB6CD",
-    "scattered_clouds": "#9494B8",
-    "broken_clouds": "#9B9BA3",
-    "overcast_clouds": "#A2A28E"
+    "clear_sky":"87CEEB",
+    "few_clouds":"8DB6CD",
+    "scattered_clouds":"9494B8",
+    "broken_clouds":"9B9BA3",
+    "overcast_clouds":"A2A28E"
 };
+const first = true;
+
+
 
 
 
