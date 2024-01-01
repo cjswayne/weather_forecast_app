@@ -27,59 +27,46 @@ function displayCurrentWeather(location, type) {
         type: "GET",
         dataType: "json",
         success: function (data) {
+
+            
+
             item = data;
             console.log(item);
-            let date = new Date(item.dt * 1000).toDateString();
+            let date = formatDate(item.dt_text).fullDate;//new Date(item.dt * 1000).toDateString();
+            let description = item.weather[0].description;
             let iconName = item.weather[0].icon;
-            let icon = `<img class="icon" src='http://openweathermap.org/img/wn/${iconName}@2x.png' alt='Weather Icon'>`;
+            let icon = `<img class="one-day-icon" src='http://openweathermap.org/img/wn/${iconName}@2x.png' alt='Weather Icon'>`;
             let temp = Math.floor(item.main.temp);
             let wind = item.wind.speed;
             let humidity = item.main.humidity;
-            let weatherColorHex = getWeatherColor(item.weather[0].description);
-
-            let elementId = `weatherToday-${weatherColorHex}`;
+            let weatherColorHex = getWeatherColor(description);
 
             $("#one-day-box").empty();
             $("#one-day-box").append(`
                     <div class="one-day">
-                   <!-- <h2 class="current-city" id="city-name">  </h2> -->
-                    <h2>${date}</h2>
-                    <ul>
-                        <li>Temp: ${temp}°F</li>
-                        <li>Wind: ${wind} mph</li>
-                        <li>Humidity: ${humidity}%</li>
-                    </ul>
-                    ${icon}
-                    <span class=""></span>
-                </div>  
-                    `);
-                    $("#five-day-box").empty();
-
-                    $("#five-day-box").append(`
-                    <div  class="five-day">
                     <h2>${temp}°F</h2>
-                    
                     <ul>
-                        
-                        <li>${wind} mph</li>
-                        <li>Humidity: ${humidity}%</li>
-                    </ul>
-                    <h3>${date} </h3>
-                    <span id="${elementId}" class="weather-icon"></span>
-                    ${icon}
+                    <li>${description}</li>
+                    <li>Wind: ${wind} mph</li>
+                    <li>Humidity: ${humidity}%</li>
+                </ul>
+                   <h3 id="city-name">  </h3>
+                    <h3>${date}</h3>
 
+                    ${icon}
+                    <span class="bgcolor"></span>
                 </div>  
                     `);
-                    let box = document.querySelector(`#${elementId}`)
+                    let box = document.querySelector(`.bgcolor`)
                     weatherColorHex = `#${weatherColorHex}`
                     console.log(weatherColorHex);
                     box.style.backgroundColor = weatherColorHex;
-                    box.style.opacity = "0.8";
+                    box.style.opacity = "0.5";
                     if(type == "LatLon"){
                         getCityName(location, function(cityName){
                             if(cityName){
                                 
-                                $('#city-name').text(`+ ${cityName}`);
+                                $('#city-name').text(`${cityName}`);
                                 console.log($('#city-name'));
                             } else{
                                 // city = "";
@@ -87,11 +74,11 @@ function displayCurrentWeather(location, type) {
                         });
                     } else {
                         $('#city-name').text(location);
+                        saveCity(location);
                     }
                     
         },
         error: function () {
-            console.log('1');
             apiError();
         },
     });
@@ -124,7 +111,7 @@ function displayFiveDayForecast(location, type) {
         type: "GET",
         dataType: "json",
         success: function (data) {
-
+            $("#five-day-box").empty();
             console.log(data);
             data.list.forEach((item, index) => {
                 if (item.dt_txt.includes("00:00:00")) {
@@ -169,8 +156,7 @@ function displayFiveDayForecast(location, type) {
         }
         ,
         error: function () {
-            console.log('1');
-            apiError();
+
         },
     });
 }
@@ -409,7 +395,7 @@ $("#search-btn").click(function () {
     displayCurrentWeather(capitilziedCity)
     displayFiveDayForecast(capitilziedCity)
     console.log(capitilziedCity);
-    saveCity(capitilziedCity);
+    
 });
 $("#clear-btn").click(function () {
     clearCityNames();

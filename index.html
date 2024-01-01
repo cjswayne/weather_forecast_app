@@ -16,21 +16,20 @@
 
 
 </head>
-<body>
+<body >
 
 
 
 <main class="flex-column">
     <header>
-        <h1 id="city-name">Weather Dashboard</h1>
-        <!-- <button id="clear-btn">Clear</button> -->
+        <h1>Weather Dashboard</h1>
     </header>
-        <section class="search flex-row" >
-            <section class="flex-column" style="display:none;">
+        <section class="flex-row" >
+
+            <section class="search flex-column" >
                 <div class ="search-box flex-column">
                     <h3>Search for a City:</h3>
                 <input id="search-input" type="text" placeholder="Enter City Name">
-            
                     <button id="search-btn">Search</button>
                 </div>
                 <div id="names-container">
@@ -40,26 +39,30 @@
             
             
     
-            <p id="success-text"></p>
-       
 
-        </div>
-        <div id="one-day-box" class="one-day-box forecast">
 
-    </section> 
-        
-    <div>
-        <!-- <h3>5 Day Forecast</h3> -->
-        <div id="five-day-box" class="flex-row five-day-box">
+        <div class="flex-column forecast">
+            <div id="one-day-box" class="one-day-box">
+            </div>
+            <div id="five-day-box" class="flex-row five-day-box">
 
                     
         
         
+            </div>
         </div>
+        
+    </section> 
+        
+    <div>
+        <!-- <h3>5 Day Forecast</h3> -->
+
     </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/dayjs@1.0.0/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./assets/script.js"></script>
