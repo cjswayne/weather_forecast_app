@@ -1,54 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Kanit:wght@100&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
 
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat&family=Kanit:wght@100&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<!-- https://dribbble.com/shots/15524720-Weather-web-app -->
-
-
+    <!-- https://dribbble.com/shots/15524720-Weather-web-app -->
 </head>
+
 <body>
-
-
-
-<main class="flex flex-column">
-    <header>
-        <h1>Weather Dashboard</h1>
-    </header>
-        <section class="flex flex-row justify-center relative" >
-        
+    <main class="flex flex-column">
+        <header>
+            <h1>Weather Dashboard</h1>
+        </header>
+        <section class="flex flex-row justify-center relative">
             <div class="flex flex-row flex-one">
-            <div id="one-day-box" class="one-day-box">
+                <div id="one-day-box" class="one-day-box"></div>
+                <div id="five-day-box" class="flex flex-column justify-between five-day-box"></div>
             </div>
-            <div id="five-day-box" class="flex flex-column justify-between five-day-box" >
-            </div>
-        </div>
-        <section class="flex search flex-column"  >
-            <div class ="flex search-box flex-column">
-                <h3>Search for a City:</h3>
-            <input id="search-input" type="text" placeholder="Enter City Name">
-                <button id="search-btn">Search</button>
-            </div>
-            <div id="names-container">
-            </div>
+            <section class="flex search flex-column">
+                <div class="flex search-box flex-column">
+                    <h3>Search for a City:</h3>
+                    <input id="search-input" type="text" placeholder="Enter City Name" />
+                    <button id="search-btn">Search</button>
+                </div>
+                <div id="names-container"></div>
+            </section>
         </section>
-    </section> 
-</main>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
-
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./assets/script.js"></script>
-    
 </body>
+
 </html>

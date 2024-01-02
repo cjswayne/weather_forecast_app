@@ -19,8 +19,10 @@ main {
   right: 0;
   bottom: 0;
   padding: 2% 0 0;
+  min-width:50%;
   width: fit-content;
   height: fit-content;
+  max-width:1300px;
   max-height: 500px;
   margin: auto;
   border-radius: 50px;
