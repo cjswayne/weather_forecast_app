@@ -6,8 +6,6 @@
 
 In this project, I created a weather dashboard web app. Its functionality includes an input box to search for a city. Upon searching, it displays the current weather and a 5-day forecast. The display shows the temperature, high and low temperatures, humidity, wind speed, and an icon corresponding to the weather conditions. Additionally, a description of the weather and the city name that was searched is displayed for the current day's weather. Users can navigate through their search history to view the weather conditions of previously selected cities.
 
-Repository
-
 ## Repository
 Link to deployed code: [Weather Dashboard](https://cjswayne.github.io/weather_forecast_app/)
 
