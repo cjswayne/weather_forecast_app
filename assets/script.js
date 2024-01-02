@@ -29,49 +29,73 @@ function displayCurrentWeather(location, type) {
         success: function (data) {
             item = data;
             console.log(item);
-            let date = formatDate(item.dt_text).fullDate; //new Date(item.dt * 1000).toDateString();
+
+            let dateObj = formatDate(item.dt_text)
+            let date = dateObj.nameMonthDayYear;
+
             let description = item.weather[0].description;
+            let groundLevel = item.main.grnd_level;
+            let seaLevel = item.main.sea_level;
+            let elevation;
             let iconName = item.weather[0].icon;
             let icon = `<img class="one-day-icon" src='http://openweathermap.org/img/wn/${iconName}@2x.png' alt='Weather Icon'>`;
             let temp = Math.floor(item.main.temp);
             let tempMax = Math.floor(item.main.temp_max);
             let tempMin = Math.floor(item.main.temp_min);
+            
 
+            let fullDateString;
             let wind = item.wind.speed;
             let humidity = item.main.humidity;
             let weatherColorHex = getWeatherColor(description);
 
             $("#one-day-box").empty();
             $("#one-day-box").append(`
-                <div class="one-day">
-                    
-                    <h2>${temp}°F
-                        <div class="flex-row">
-                            <ul>
-                                <li>H: ${tempMax}°</li>
-                                <li>L: ${tempMin}°</li>
-                            </ul>
-                            <div class="flex-column justify-between">
-                                <img class="humidity-icon" src='/assets/images/cloud-humid-svgrepo-com.png' alt='Weather Icon'> 
-                                <img class="wind-icon" src='/assets/images/wind-svgrepo-com.png' alt='Weather Icon'>                    
-                            </div>
-                        </div>
-                    </h2>
-                    <ul>
-                        <li>${description}</li>
-                        <li>Wind: ${wind} mph</li>
-                        <li>Humidity: ${humidity}%</li>
-                    </ul>
-                    <h3 id="city-name"> </h3>
-                    <h3>${date}</h3>
+             
+                
+            <div class="one-day justify-between">
+           
+            <div class="flex flex-row justify-between one-day-data">
+            <h2 class="temp">${temp}°F</h2>
+            <div class="flex flex-row">
+                <div class="flex flex-column justify-between">
+                    <p>H: ${tempMax}°</p>
+                    <p>L: ${tempMin}°</p>
+                </div>
+                <div class="flex flex-column justify-between">
+                    <span class="flex flex-row align-items-center"><img class="humidity-icon" src='/assets/images/cloud-humid-svgrepo-com.png' alt='Weather Icon'>    <p>${humidity}<span class="symbol">%</span></p>           </span>     
 
-                    ${icon}
+                    <span class="flex flex-row align-items-center"><svg class="wind-icon" width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.7639 7C16.3132 6.38625 17.1115 6 18 6C19.6569 6 21 7.34315 21 9C21 10.6569 19.6569 12 18 12H3M8.50926 4.66667C8.87548 4.2575 9.40767 4 10 4C11.1046 4 12 4.89543 12 6C12 7.10457 11.1046 8 10 8H3M11.5093 19.3333C11.8755 19.7425 12.4077 20 13 20C14.1046 20 15 19.1046 15 18C15 16.8954 14.1046 16 13 16H3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>   <p>${wind}<span class="symbol">mph</span></p></span>     
+                </div>
+                
+            </div>
+            <div class="flex flex-row">
+            <p>${description}</p>
+            </div>
+            <div class="flex flex-one justify-center weather-icon">
+            
+            </div>
+            
+           
+        </div>
+        <div class="flex flex-column justify-between one-day-date">
+        ${icon}
+        <h3 id="city-name" class="searched-city-name"></h3>
+            <p class="day"></p>
+            <h3>${date}</h3>
+        </div>
                     <span class="bgcolor"></span>
                 </div>  
                     `);
             let box = document.querySelector(`.bgcolor`);
-            weatherColorHex = `#${weatherColorHex}`;
-            console.log(weatherColorHex);
+            // weatherColorHex = `#${weatherColorHex}`;
+            let body = document.querySelector('body'); 
+            let header = document.querySelector('header');
+            header.style.backgroundColor = weatherColorHex;
+            body.style.backgroundColor = weatherColorHex;
+
             box.style.backgroundColor = weatherColorHex;
             box.style.opacity = "0.5";
             if (type == "LatLon") {
@@ -140,28 +164,30 @@ function displayFiveDayForecast(location, type) {
                     let humidity = item.main.humidity;
 
                     let weatherColorHex = getWeatherColor(item.weather[0].description);
-
-                    let elementId = `weather${index}-${weatherColorHex}`;
+  
+                    let elementId = `weather${Math.floor(1000000000 + Math.random() * 9000000000)}`;
                     $("#five-day-box").append(`
                     <div  class="five-day">
                     <h2>${temp}°F
-                    <div class="flex-row justify-between">
-                        <div class="flex-row">
-                            <div class="flex-column justify-between">
+                    <div class="flex flex-row justify-between">
+                        <div class="flex flex-row">
+                            <div class="flex flex-column justify-between">
                                 <p>H: ${tempMax}°</p>
                                 <p>L: ${tempMin}°</p>
                             </div>
-                            <div class="flex-column justify-between">
-                                <span class="flex-row align-items-center"><img class="humidity-icon" src='/assets/images/cloud-humid-svgrepo-com.png' alt='Weather Icon'>    <p>${humidity}<span class="symbol">%</span></p>           </span>     
+                            <div class="flex flex-column justify-between">
+                                <span class="flex flex-row align-items-center"><img class="humidity-icon" src='/assets/images/cloud-humid-svgrepo-com.png' alt='Weather Icon'>    <p>${humidity}<span class="symbol">%</span></p>           </span>     
 
-                                <span class="flex-row align-items-center"><img class="wind-icon" src='/assets/images/wind-svgrepo-com.png' alt='Weather Icon'>   <p>${wind}<span class="symbol">mph</span></p>           </span>     
+                                <span class="flex flex-row align-items-center"><svg class="wind-icon" width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.7639 7C16.3132 6.38625 17.1115 6 18 6C19.6569 6 21 7.34315 21 9C21 10.6569 19.6569 12 18 12H3M8.50926 4.66667C8.87548 4.2575 9.40767 4 10 4C11.1046 4 12 4.89543 12 6C12 7.10457 11.1046 8 10 8H3M11.5093 19.3333C11.8755 19.7425 12.4077 20 13 20C14.1046 20 15 19.1046 15 18C15 16.8954 14.1046 16 13 16H3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>   <p>${wind}<span class="symbol">mph</span></p>           </span>     
                             </div>
                         </div>
-                        <div class="flex-one justify-center weather-icon">
+                        <div class="flex flex-one justify-center weather-icon">
                         ${icon}
                         </div>
                         
-                        <div class="flex-column justify-between date">
+                        <div class="flex flex-column justify-between date">
                             <p class="day">${day}</p>
                             <p class="smaller-date">${date}</p>
                         </div>
@@ -170,15 +196,18 @@ function displayFiveDayForecast(location, type) {
                     
 
 
-                    <span id="${elementId}" class="bgcolor"></span>
+                    <span id='${elementId}' class="bgcolor"></span>
                     
 
                 </div>  
                     `);
-
+                    console.log(elementId);
                     let box = document.querySelector(`#${elementId}`);
-                    weatherColorHex = `#${weatherColorHex}`;
-                    console.log(weatherColorHex);
+                    console.log(box);
+                    // weatherColorHex = `#${weatherColorHex}`;
+
+                   
+
                     box.style.backgroundColor = weatherColorHex;
                     box.style.opacity = "0.6";
                 }
@@ -340,76 +369,75 @@ function formatDate(dateString) {
         abbreviatedDayNameUpper: date.format("ddd").toUpperCase(), // 'SAT'
         abbreviatedDayNameLower: date.format("ddd"), // 'Sat'
         fullDay: date.format('dddd'),
+        dayDate: date.format('DD'),
+        year: date.format('YYYY'),
         fullDate: date.format("MM/DD/YY"), // '12/30/2023'
         monthDay: date.format("MM/DD"), // '12/30'
         fullMonthName: date.format("MMMM"), // 'December'
         abbreviatedMonthNameUpper: date.format("MMM").toUpperCase(), // 'DEC'
         abbreviatedMonthNameLower: date.format("MMM"), // 'Dec'
+        nameMonthDayYear: date.format('dddd, MMMM DD, YYYY ')
     };
 }
 
 const weatherColors = {
-    thunderstorm_with_light_rain: "54595D",
-    thunderstorm_with_rain: "4A5056",
-    thunderstorm_with_heavy_rain: "40464D",
-    light_thunderstorm: "5F656B",
-    thunderstorm: "353B41",
-    heavy_thunderstorm: "2B3137",
-    ragged_thunderstorm: "20262C",
-    thunderstorm_with_light_drizzle: "73797F",
-    thunderstorm_with_drizzle: "696F75",
-    thunderstorm_with_heavy_drizzle: "8B9197",
-
-    light_intensity_drizzle: "A0AAB0",
-    drizzle: "B4BEC4",
-    heavy_intensity_drizzle: "C8D2D8",
-    light_intensity_drizzle_rain: "DCDDE2",
-    drizzle_rain: "B0BAD0",
-    heavy_intensity_drizzle_rain: "94A8C8",
-    shower_rain_and_drizzle: "7886C0",
-    heavy_shower_rain_and_drizzle: "5C64B8",
-    shower_drizzle: "4052B0",
-
-    light_rain: "88B7D5",
-    moderate_rain: "6CA3C1",
-    heavy_intensity_rain: "508FAD",
-    very_heavy_rain: "347B99",
-    extreme_rain: "186785",
-    freezing_rain: "004D71",
-    light_intensity_shower_rain: "0073A8",
-    shower_rain: "0086C3",
-    heavy_intensity_shower_rain: "0099DE",
-    ragged_shower_rain: "00ACF9",
-
-    light_snow: "E0E0E0",
-    snow: "E6E6E6",
-    heavy_snow: "ECECEC",
-    sleet: "D1D1D1",
-    light_shower_sleet: "D7D7D7",
-    shower_sleet: "DDDDDD",
-    light_rain_and_snow: "F2F2F2",
-    rain_and_snow: "F8F8F8",
-    light_shower_snow: "FBFBFB",
-    shower_snow: "FFFFFF",
-    heavy_shower_snow: "F2F2F2",
-
-    mist: "B3B3B3",
-    smoke: "999999",
-    haze: "808080",
-    sand_dust_whirls: "666666",
-    fog: "4D4D4D",
-    sand: "333333",
-    dust: "1A1A1A",
-    volcanic_ash: "000000",
-    squalls: "262626",
-    tornado: "0D0D0D",
-
-    clear_sky: "87CEEB",
-    few_clouds: "8DB6CD",
-    scattered_clouds: "9494B8",
-    broken_clouds: "9B9BA3",
-    overcast_clouds: "A2A28E",
+    thunderstorm_with_light_rain: "rgba(84, 89, 93, 0.5)",
+    thunderstorm_with_rain: "rgba(74, 80, 86, 0.5)",
+    thunderstorm_with_heavy_rain: "rgba(64, 70, 77, 0.5)",
+    light_thunderstorm: "rgba(95, 101, 107, 0.5)",
+    thunderstorm: "rgba(53, 59, 65, 0.5)",
+    heavy_thunderstorm: "rgba(43, 49, 55, 0.5)",
+    ragged_thunderstorm: "rgba(32, 38, 44, 0.5)",
+    thunderstorm_with_light_drizzle: "rgba(115, 121, 127, 0.5)",
+    thunderstorm_with_drizzle: "rgba(105, 111, 117, 0.5)",
+    thunderstorm_with_heavy_drizzle: "rgba(139, 145, 151, 0.5)",
+    light_intensity_drizzle: "rgba(160, 170, 176, 0.5)",
+    drizzle: "rgba(180, 190, 196, 0.5)",
+    heavy_intensity_drizzle: "rgba(200, 210, 216, 0.5)",
+    light_intensity_drizzle_rain: "rgba(220, 221, 226, 0.5)",
+    drizzle_rain: "rgba(176, 186, 208, 0.5)",
+    heavy_intensity_drizzle_rain: "rgba(148, 168, 200, 0.5)",
+    shower_rain_and_drizzle: "rgba(120, 134, 192, 0.5)",
+    heavy_shower_rain_and_drizzle: "rgba(92, 100, 184, 0.5)",
+    shower_drizzle: "rgba(64, 82, 176, 0.5)",
+    light_rain: "rgba(136, 183, 213, 0.5)",
+    moderate_rain: "rgba(108, 163, 193, 0.5)",
+    heavy_intensity_rain: "rgba(80, 143, 173, 0.5)",
+    very_heavy_rain: "rgba(52, 123, 153, 0.5)",
+    extreme_rain: "rgba(24, 103, 133, 0.5)",
+    freezing_rain: "rgba(0, 77, 113, 0.5)",
+    light_intensity_shower_rain: "rgba(0, 115, 168, 0.5)",
+    shower_rain: "rgba(0, 134, 195, 0.5)",
+    heavy_intensity_shower_rain: "rgba(0, 153, 222, 0.5)",
+    ragged_shower_rain: "rgba(0, 172, 249, 0.5)",
+    light_snow: "rgba(224, 224, 224, 0.5)",
+    snow: "rgba(230, 230, 230, 0.5)",
+    heavy_snow: "rgba(236, 236, 236, 0.5)",
+    sleet: "rgba(209, 209, 209, 0.5)",
+    light_shower_sleet: "rgba(215, 215, 215, 0.5)",
+    shower_sleet: "rgba(221, 221, 221, 0.5)",
+    light_rain_and_snow: "rgba(242, 242, 242, 0.5)",
+    rain_and_snow: "rgba(248, 248, 248, 0.5)",
+    light_shower_snow: "rgba(251, 251, 251, 0.5)",
+    shower_snow: "rgba(255, 255, 255, 0.5)",
+    heavy_shower_snow: "rgba(242, 242, 242, 0.5)",
+    mist: "rgba(179, 179, 179, 0.5)",
+    smoke: "rgba(153, 153, 153, 0.5)",
+    haze: "rgba(128, 128, 128, 0.5)",
+    sand_dust_whirls: "rgba(102, 102, 102, 0.5)",
+    fog: "rgba(77, 77, 77, 0.5)",
+    sand: "rgba(51, 51, 51, 0.5)",
+    dust: "rgba(26, 26, 26, 0.5)",
+    volcanic_ash: "rgba(0, 0, 0, 0.5)",
+    squalls: "rgba(38, 38, 38, 0.5)",
+    tornado: "rgba(13, 13, 13, 0.5)",
+    clear_sky: "rgba(135, 206, 235, 0.5)",
+    few_clouds: "rgba(141, 182, 205, 0.5)",
+    scattered_clouds: "rgba(148, 148, 184, 0.5)",
+    broken_clouds: "rgba(155, 155, 163, 0.5)",
+    overcast_clouds: "rgba(162, 162, 142, 0.5)"
 };
+
 const first = true;
 
 init();
