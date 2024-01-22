@@ -145,7 +145,7 @@ header {
 }
 
 #names-container {
-  overflow: auto;
+  overflow: scroll;
   height: 320px;
   scrollbar-width: thin;
   scrollbar-color: blue lightgray;

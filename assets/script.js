@@ -401,6 +401,49 @@ function formatDate(dateString) {
         nameMonthDayYear: date.format("dddd, MMMM DD, YYYY "), // 'Tuesday, January 02, 2024'
     };
 }
+// // Step 1: Fetch Radio Stations Data
+// fetch('https://de1.api.radio-browser.info/json/stations')
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log(data);
+
+//     // Step 2: Select a Station
+//     // This example selects the first station from the list
+//     let stationUrl = data[0].url;
+
+//     // Step 3: Play the Stream
+//     let audio = new Audio(stationUrl);
+//     audio.play();
+//   })
+//   .catch(error => {
+//     console.error('Error fetching radio stations:', error);
+//   });
+// Replace 'your_tag_here' with the desired tag
+var tag = 'jazz';
+
+// Step 1: Make a GET request to the Radio Browser API
+$.ajax({
+  url: 'https://de1.api.radio-browser.info/json/stations/bytag/' + tag,
+  method: 'GET',
+  success: function(data) {
+    // Step 2: Handle the Response
+    console.log('Stations:', data);
+    let firstStationUrl = data[4].url;
+
+    // Play the First Station
+    let audio = new Audio(firstStationUrl);
+    audio.play();
+    // audio.stop();
+    // Process the data to display or use the stations as needed
+    // For example, listing the station names:
+    data.forEach(function(station) {
+      console.log(station.name);
+    });
+  },
+  error: function(error) {
+    console.error('Error fetching stations:', error);
+  }
+});
 
 init();
 
